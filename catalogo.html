@@ -492,7 +492,6 @@
         <ul class="nav-links">
             <li><a href="index.html" data-i18n="nav_home">Home</a></li>
             <li><a href="catalogo.html" class="active" style="color:var(--gold);" data-i18n="nav_catalog">Catálogo</a></li>
-            <li><a href="index.html#services" data-i18n="nav_services">Services</a></li>
             <li><a href="index.html#about" data-i18n="nav_about">About</a></li>
             <li><a href="index.html#contact" class="nav-cta" data-i18n="nav_contact">Contact</a></li>
         </ul>
@@ -636,6 +635,7 @@
 <!-- SIDEBAR OVERLAY (mobile) -->
 <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
 
+<script src="horses.js"></script>
 <script>
 /* ── TRANSLATIONS ── */
 const t = {
@@ -656,14 +656,7 @@ const t = {
 };
 let currentLang = 'es';
 
-const horses = [
-    { id:1, name:"Santo",     breed:"Pura Raza Española (PRE)", raza:"pre", age:5,  height:"1.63 m", altura_cat:"medium", disciplina:"doma", nivel:"intermedio", genero:"semental", perfil:"profesional", image:"caballos/SANTO/uma detalhado ilustração do uma cavalo cabeça com fluindo juba_.jpg",                                              nacimiento:"10/04/2020", capa:"Torda",    piro:"Positivo", talla:"1.63 m", padre:"Livino de Martet", madre:"Fer Bonita", criador:"Finca Lo Tacon", desc:"Semental PRE de capa torda, Nivel 4 de Doma Clásica confirmado. Hijo de Livino de Martet sobre Fer Bonita. Piroplasmosis positiva, controlada y sin impedimento deportivo. San Pedro del Pinatar, Murcia.", tag:"Nivel 4 · Doma" },
-    { id:2, name:"Évora",     breed:"Pura Raza Española (PRE)", raza:"pre", age:5,  height:"1.59 m", altura_cat:"medium", disciplina:"doma", nivel:"basico",     genero:"yegua",    perfil:"amateur",     image:"caballos/EVORA/3a4cfc8563de95fdf035386e297948c7.jpg",                                nacimiento:"2021",       capa:"Torda",    piro:"Negativo", talla:"1.59 m", desc:"Yegua PRE de capa torda nacida en 2021. Nivel 2 de Doma Clásica, temperamento dócil y gran potencial. Placas correctas. Piro negativa. Ideal para amateur que quiera progresar en la doma clásica. San Pedro del Pinatar, Murcia.", tag:"Nivel 2 · Doma" },
-    { id:3, name:"Limeño",    breed:"Pura Raza Española (PRE)", raza:"pre", age:8,  height:"1.74 m", altura_cat:"xlarge", disciplina:"doma", nivel:"avanzado",   genero:"semental", perfil:"profesional", image:"caballos/Limeno/limeno1.jpeg",                                                 nacimiento:"2018",       capa:"Castaña",  piro:"Negativo", talla:"1.74 m", desc:"Semental PRE castaño de 1.74 m, talla excepcional. Nivel 4 con Passage confirmado, movimientos elevados y gran presencia en pista. Placas correctas. Piro negativo. San Pedro del Pinatar, Murcia.", tag:"Nivel 4 · Passage" },
-    { id:4, name:"Halconero", breed:"Pura Raza Española (PRE)", raza:"pre", age:11, height:"1.67 m", altura_cat:"large",  disciplina:"doma", nivel:"gran-prix",  genero:"castrado", perfil:"profesional", image:"caballos/Talconero/Halconero/Halconero1.jpeg",                                        nacimiento:"2015",       capa:"Castaña",  piro:"Negativo", talla:"1.67 m", desc:"PRE castrado castaño, el ejemplar más experimentado del catálogo. Nivel San Jorge completo con Piaffe y Passage confirmados. Equilibrado y de fácil manejo. Placas correctas. Piro negativo. San Pedro del Pinatar, Murcia.", tag:"San Jorge · Piaffe · Passage" },
-    { id:5, name:"Umero",     breed:"Pura Raza Española (PRE)", raza:"pre", age:7,  height:"1.66 m", altura_cat:"large",  disciplina:"doma", nivel:"gran-prix",  genero:"semental", perfil:"profesional", image:"caballos/UMERO/download.jpg",                                nacimiento:"2019",       capa:"Torda",    piro:"Negativo", talla:"1.66 m", desc:"Semental PRE tordo nacido en 2019. Nivel 7 / San Jorge alcanzado con tan solo 7 años, progresión excepcional. Gran motor y presencia. Entero. Placas correctas. Piro negativo. San Pedro del Pinatar, Murcia.", tag:"San Jorge · Nivel 7" },
-    { id:6, name:"Festina",   breed:"Pura Raza Española (PRE)", raza:"pre", age:0,  height:"Consultar", altura_cat:"medium", disciplina:"doma", nivel:"intermedio", genero:"yegua",   perfil:"amateur",     image:"caballos/FESTINA/_Piebald horse_ Sticker for Sale by Grypis.jpg",                             nacimiento:"—",          capa:"—",        piro:"—",       talla:"—",   desc:"Información próximamente disponible. Contacte con nosotros para conocer los detalles de esta yegua PRE. San Pedro del Pinatar, Murcia.", tag:"PRE" },
-];
+/* Datos cargados desde horses.js */
 
 let activeFilters = {};
 
@@ -761,8 +754,8 @@ function renderGrid(list) {
         <div class="horse-card" onclick="window.location='caballo.html?id=${h.id}'">
             <div class="horse-img-wrap">
                 <img src="${h.image}" alt="${h.name}" class="horse-img" loading="lazy">
-                <span class="card-discipline">${h.disciplina}</span>
-                <span class="card-gender">${h.genero}</span>
+                <span class="card-discipline">${h.disciplinaLabel}</span>
+                <span class="card-gender">${h.generoLabel}</span>
                 <div class="card-overlay">
                     <span class="card-inquire">${(typeof currentLang !== 'undefined' && t[currentLang]) ? t[currentLang].card_inquire : 'Ver Detalles →'}</span>
                 </div>
@@ -770,10 +763,10 @@ function renderGrid(list) {
             <div class="card-body">
                 <p class="card-name">${h.name}</p>
                 <p class="card-meta">${h.breed} &nbsp;·&nbsp; ${h.age} años &nbsp;·&nbsp; ${h.height}</p>
-                <span class="card-level">${h.nivel.replace('-',' ').replace(/\b\w/g, c => c.toUpperCase())} · ${h.perfil}</span>
-                <p class="card-desc">${h.desc}</p>
+                <span class="card-level">${h.nivelLabel} · ${h.perfilLabel}</span>
+                <p class="card-desc">${h.desc[currentLang]}</p>
                 <div class="card-footer">
-                    <span class="card-tag">${h.tag}</span>
+                    <span class="card-tag">${h.tag[currentLang]}</span>
                 </div>
             </div>
         </div>

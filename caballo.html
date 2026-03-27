@@ -393,7 +393,6 @@
         <ul class="nav-links">
             <li><a href="index.html" data-i18n="nav_home">Home</a></li>
             <li><a href="catalogo.html" data-i18n="nav_catalog">Catálogo</a></li>
-            <li><a href="index.html#services" data-i18n="nav_services">Servicios</a></li>
             <li><a href="index.html#contact" class="nav-cta" data-i18n="nav_contact">Contacto</a></li>
         </ul>
         <div class="lang-switcher">
@@ -410,15 +409,9 @@
     <p>&copy; 2025 IRH - Iberian Riding Horses &nbsp;·&nbsp; Finca Lo Tacon s/n, San Pedro del Pinatar 30740 (Murcia) &nbsp;·&nbsp; <a href="index.html">Inicio</a> &nbsp;·&nbsp; <a href="catalogo.html">Catálogo</a></p>
 </footer>
 
+<script src="horses.js"></script>
 <script>
-const horses = [
-    { id:1, name:"Santo",     breed:"Pura Raza Española (PRE)", age:5,  height:"1.63 m", disciplina:"Doma Clásica", nivel:"Nivel 4",                   genero:"Semental", perfil:"Profesional", image:"caballos/SANTO/uma detalhado ilustração do uma cavalo cabeça com fluindo juba_.jpg",                                          nacimiento:"10/04/2020", capa:"Torda",   piro:"Positivo", talla:"1.63 m", padre:"Livino de Martet", madre:"Fer Bonita", criador:"Finca Lo Tacon", titular:"Finca Lo Tacon", microchip:"100100007241310000129010", desc:"Santo es un semental Pura Raza Española nacido el 10 de abril de 2020 en Finca Lo Tacon, con Nivel 4 de Doma Clásica confirmado. Hijo de Livino de Martet sobre Fer Bonita, su pedigree de élite combina sangre deportiva y pureza de raza. Capa torda con presencia y movimientos de primer nivel. Placas radiológicas en perfecto estado. Piroplasmosis positiva, condición habitual y controlable en caballos de la zona mediterránea, sin impedimento para su actividad deportiva con el protocolo veterinario adecuado. Carta de titularidad disponible. San Pedro del Pinatar, Murcia.", tag:"Nivel 4 · Doma" },
-    { id:2, name:"Évora",     breed:"Pura Raza Española (PRE)", age:5,  height:"1.59 m", disciplina:"Doma Clásica", nivel:"Nivel 2",                   genero:"Yegua",    perfil:"Amateur",     image:"caballos/EVORA/3a4cfc8563de95fdf035386e297948c7.jpg",                        nacimiento:"2021",       capa:"Torda",   piro:"Negativo", talla:"1.59 m", desc:"Évora es una yegua Pura Raza Española de capa torda nacida en 2021, con Nivel 2 de Doma Clásica confirmado. Ejemplar joven con gran potencial de desarrollo, temperamento dócil y movimientos naturales propios de la raza. Placas radiológicas en perfecto estado. Piroplasmosis negativa. La opción ideal para un jinete amateur que quiera progresar en la doma clásica junto a una yegua joven de raza pura con futuro competitivo. San Pedro del Pinatar, Murcia.", tag:"Nivel 2 · Doma" },
-    { id:3, name:"Limeño",    breed:"Pura Raza Española (PRE)", age:8,  height:"1.74 m", disciplina:"Doma Clásica", nivel:"Nivel 4 · Passage",         genero:"Semental", perfil:"Profesional", image:"caballos/Limeno/limeno1.jpeg",                                           nacimiento:"2018",       capa:"Castaña", piro:"Negativo", talla:"1.74 m", desc:"Limeño es un semental Pura Raza Española de capa castaña nacido en 2018. Su talla excepcional de 1.74 m lo convierte en uno de los ejemplares más imponentes del catálogo. Con Nivel 4 y Passage confirmados, sus movimientos elevados y la potencia de su trote y galope lo sitúan en la élite de la doma clásica española. Entero. Placas radiológicas correctas. Piroplasmosis negativa. Para jinetes profesionales que busquen un caballo de representación con nivel FEI. San Pedro del Pinatar, Murcia.", tag:"Nivel 4 · Passage" },
-    { id:4, name:"Halconero", breed:"Pura Raza Española (PRE)", age:11, height:"1.67 m", disciplina:"Doma Clásica", nivel:"San Jorge · Piaffe · Passage", genero:"Castrado", perfil:"Profesional", image:"caballos/Talconero/Halconero/Halconero1.jpeg",                                  nacimiento:"2015",       capa:"Castaña", piro:"Negativo", talla:"1.67 m", desc:"Halconero es un macho Pura Raza Española castrado de capa castaña nacido en 2015. El ejemplar más experimentado del catálogo: nivel San Jorge completo con Piaffe y Passage confirmados y trabajados. Años de entrenamiento de alta escuela lo han convertido en un caballo sumamente educado, equilibrado y de fácil manejo. Placas radiológicas correctas. Piroplasmosis negativa. La opción más segura para un jinete de nivel que busca garantías y un trabajo ya consolidado. San Pedro del Pinatar, Murcia.", tag:"San Jorge · Piaffe · Passage" },
-    { id:5, name:"Umero",     breed:"Pura Raza Española (PRE)", age:7,  height:"1.66 m", disciplina:"Doma Clásica", nivel:"Nivel 7 / San Jorge",        genero:"Semental", perfil:"Profesional", image:"caballos/UMERO/download.jpg",                        nacimiento:"2019",       capa:"Torda",   piro:"Negativo", talla:"1.66 m", desc:"Umero es un semental Pura Raza Española de capa torda nacido en 2019. Con tan solo 7 años ha alcanzado el Nivel 7 de Doma Clásica y el nivel San Jorge, una progresión notable que evidencia su extraordinaria aptitud para la alta competición. Gran motor, presencia y movimientos que cautivan en la pista. Entero. Placas radiológicas en perfecto estado. Piroplasmosis negativa. San Pedro del Pinatar, Murcia.", tag:"San Jorge · Nivel 7" },
-    { id:6, name:"Festina",   breed:"Pura Raza Española (PRE)", age:0,  height:"Consultar", disciplina:"Doma Clásica", nivel:"Consultar",               genero:"Yegua",    perfil:"Amateur",     image:"caballos/FESTINA/_Piebald horse_ Sticker for Sale by Grypis.jpg",                      nacimiento:"—",          capa:"—",       piro:"—",       talla:"—",   desc:"Información próximamente disponible. Contacte con nosotros directamente para conocer todos los detalles de esta yegua PRE. San Pedro del Pinatar, Murcia.", tag:"PRE" }
-];
+/* Datos cargados desde horses.js */
 
 /* ── TRANSLATIONS ── */
 const tr = {
@@ -485,7 +478,7 @@ function render() {
             <img src="${horse.image}" alt="${horse.name}">
             <div class="horse-hero-overlay"></div>
             <div class="horse-hero-label">
-                <span class="horse-hero-eyebrow">${horse.disciplina} &nbsp;·&nbsp; ${horse.tag}</span>
+                <span class="horse-hero-eyebrow">${horse.disciplinaLabel} &nbsp;·&nbsp; ${horse.tag[currentLang]}</span>
                 <h1 class="horse-hero-name">${horse.name}</h1>
                 <p class="horse-hero-breed">${horse.breed}</p>
             </div>
@@ -511,15 +504,15 @@ function render() {
                 <div class="specs-grid">
                     <div class="spec-item">
                         <span class="spec-label">${l.spec_discipline}</span>
-                        <span class="spec-value highlight">${horse.disciplina}</span>
+                        <span class="spec-value highlight">${horse.disciplinaLabel}</span>
                     </div>
                     <div class="spec-item">
                         <span class="spec-label">${l.spec_level}</span>
-                        <span class="spec-value">${horse.nivel}</span>
+                        <span class="spec-value">${horse.nivelLabel}</span>
                     </div>
                     <div class="spec-item">
                         <span class="spec-label">${l.spec_gender}</span>
-                        <span class="spec-value">${horse.genero}</span>
+                        <span class="spec-value">${horse.generoLabel}</span>
                     </div>
                     <div class="spec-item">
                         <span class="spec-label">${l.spec_age}</span>
@@ -531,7 +524,7 @@ function render() {
                     </div>
                     <div class="spec-item">
                         <span class="spec-label">${l.spec_profile}</span>
-                        <span class="spec-value">${horse.perfil}</span>
+                        <span class="spec-value">${horse.perfilLabel}</span>
                     </div>
                 </div>
 
@@ -548,7 +541,7 @@ function render() {
                 </div>` : ''}
 
                 <span class="horse-desc-title">${l.section_desc}</span>
-                <p class="horse-desc">${horse.desc}</p>
+                <p class="horse-desc">${horse.desc[currentLang]}</p>
 
                 <a href="catalogo.html" style="display:inline-flex; align-items:center; gap:0.5rem; color:var(--stone); text-decoration:none; font-size:0.78rem; font-weight:500; letter-spacing:0.12em; text-transform:uppercase; border-bottom:1px solid var(--border-strong); padding-bottom:3px; transition:color 0.25s, border-color 0.25s;"
                    onmouseover="this.style.color='var(--gold)'; this.style.borderColor='var(--gold)'"
@@ -560,7 +553,7 @@ function render() {
             <!-- RIGHT SIDEBAR -->
             <div class="horse-sidebar">
                 <div class="contact-card">
-                    <span class="contact-card-tag">${horse.tag}</span>
+                    <span class="contact-card-tag">${horse.tag[currentLang]}</span>
                     <h3>${l.contact_title}<br><em style="font-style:italic; color:var(--gold-light);">${horse.name}</em>?</h3>
                     <p>${l.contact_body}</p>
                     <a href="index.html#contact" class="btn-contact">

@@ -10,7 +10,7 @@ const horses = [
         breed: "Pura Raza Española (PRE)",
         breedShort: "P.R.E.",
         raza: "pre",
-        age: 5,
+        age: 6,
         nacimiento: "2020",
         height: "1.63 m",
         talla: "1.63 m",

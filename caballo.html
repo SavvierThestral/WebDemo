@@ -384,53 +384,86 @@
             inset: 0;
             z-index: 999;
             background: rgba(10,10,10,0.96);
+            flex-direction: column;
             align-items: center;
             justify-content: center;
         }
         .lightbox.open { display: flex; }
-        .lightbox-img {
-            max-width: 90vw;
-            max-height: 90vh;
-            object-fit: contain;
-            user-select: none;
+        .lightbox-top {
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 1.5rem;
+            pointer-events: none;
+        }
+        .lightbox-counter {
+            font-size: 0.8rem;
+            letter-spacing: 0.12em;
+            color: rgba(255,255,255,0.6);
+            pointer-events: none;
         }
         .lightbox-close {
-            position: absolute;
-            top: 1.2rem; right: 1.5rem;
             background: none;
             border: none;
             color: rgba(255,255,255,0.7);
-            font-size: 2rem;
+            font-size: 2.2rem;
             cursor: pointer;
             line-height: 1;
             transition: color 0.2s;
+            pointer-events: all;
         }
         .lightbox-close:hover { color: white; }
+        .lightbox-img {
+            max-width: calc(100vw - 130px);
+            max-height: calc(100vh - 160px);
+            object-fit: contain;
+            user-select: none;
+        }
         .lightbox-btn {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.08);
+            border: none;
             color: white;
-            width: 48px; height: 48px;
-            display: flex; align-items: center; justify-content: center;
+            width: 60px;
+            height: 100%;
+            max-height: calc(100vh - 160px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
             transition: background 0.2s;
-            backdrop-filter: blur(4px);
         }
-        .lightbox-btn:hover { background: rgba(184,147,90,0.4); }
-        .lightbox-btn.prev { left: 1.5rem; }
-        .lightbox-btn.next { right: 1.5rem; }
-        .lightbox-counter {
+        .lightbox-btn:hover { background: rgba(255,255,255,0.14); }
+        .lightbox-btn.prev { left: 0; }
+        .lightbox-btn.next { right: 0; }
+        .lightbox-thumbs {
             position: absolute;
-            bottom: 1.5rem;
+            bottom: 1rem;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 0.72rem;
-            letter-spacing: 0.2em;
-            color: rgba(255,255,255,0.5);
+            display: flex;
+            gap: 8px;
+            align-items: center;
         }
+        .lightbox-thumb {
+            width: 52px;
+            height: 52px;
+            object-fit: cover;
+            cursor: pointer;
+            opacity: 0.45;
+            border: 2px solid transparent;
+            transition: opacity 0.2s, border-color 0.2s;
+            flex-shrink: 0;
+        }
+        .lightbox-thumb.active {
+            opacity: 1;
+            border-color: var(--gold);
+        }
+        .lightbox-thumb:hover { opacity: 0.8; }
         .horse-photo-col { cursor: zoom-in; }
     </style>
 </head>
@@ -465,16 +498,19 @@
 <div id="page-content"></div>
 
 <!-- LIGHTBOX -->
-<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
-    <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
-    <button class="lightbox-btn prev" onclick="lbSlide(-1); event.stopPropagation()">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+<div class="lightbox" id="lightbox">
+    <div class="lightbox-top">
+        <span class="lightbox-counter" id="lightbox-counter"></span>
+        <button class="lightbox-close" id="lightbox-close">&times;</button>
+    </div>
+    <button class="lightbox-btn prev" id="lb-prev">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
     </button>
     <img class="lightbox-img" id="lightbox-img" src="" alt="">
-    <button class="lightbox-btn next" onclick="lbSlide(1); event.stopPropagation()">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    <button class="lightbox-btn next" id="lb-next">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
     </button>
-    <span class="lightbox-counter" id="lightbox-counter"></span>
+    <div class="lightbox-thumbs" id="lightbox-thumbs"></div>
 </div>
 
 <footer>
@@ -517,6 +553,10 @@ function setLang(lang) {
     });
     document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.textContent.toLowerCase() === lang));
     render();
+    currentSlide = 0;
+    attachSliderEvents();
+    const photoColEl = document.getElementById('photo-col');
+    if (photoColEl) photoColEl.addEventListener('click', openCurrentPhoto);
 }
 
 function getParam(name) {
@@ -555,18 +595,18 @@ function render() {
         <div class="horse-split">
 
             <!-- IZQUIERDA: foto -->
-            <div class="horse-photo-col" id="photo-col" onclick="openCurrentPhoto()">
+            <div class="horse-photo-col" id="photo-col">
                 ${(horse.images && horse.images.length > 1 ? horse.images : [horse.image])
                     .map((src, i) => `<img src="${src}" alt="${horse.name} ${i+1}"${i > 0 ? ' class="hidden"' : ''}>`).join('')}
                 ${horse.images && horse.images.length > 1 ? `
-                <button class="slider-btn prev" onclick="slidePhoto(-1); event.stopPropagation()">
+                <button class="slider-btn prev">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
                 </button>
-                <button class="slider-btn next" onclick="slidePhoto(1); event.stopPropagation()">
+                <button class="slider-btn next">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
                 </button>
                 <div class="slider-dots">
-                    ${horse.images.map((_, i) => `<div class="slider-dot${i === 0 ? ' active' : ''}" onclick="goToPhoto(${i}); event.stopPropagation()"></div>`).join('')}
+                    ${horse.images.map((_, i) => `<div class="slider-dot${i === 0 ? ' active' : ''}"></div>`).join('')}
                 </div>` : ''}
                 <div class="horse-photo-badge">
                     <span class="horse-photo-badge-tag">${horse.disciplinaLabel} &nbsp;·&nbsp; ${horse.tag[currentLang]}</span>
@@ -638,23 +678,40 @@ function render() {
     `;
 }
 
+/* ── SLIDER ── */
+let currentSlide = 0;
+
+function slidePhoto(dir) {
+    const imgs = document.querySelectorAll('#photo-col img');
+    const dots = document.querySelectorAll('.slider-dot');
+    if (!imgs.length) return;
+    imgs[currentSlide].classList.add('hidden');
+    if (dots[currentSlide]) dots[currentSlide].classList.remove('active');
+    currentSlide = (currentSlide + dir + imgs.length) % imgs.length;
+    imgs[currentSlide].classList.remove('hidden');
+    if (dots[currentSlide]) dots[currentSlide].classList.add('active');
+}
+function goToPhoto(index) {
+    const diff = ((index - currentSlide) % 99 + 99) % 99;
+    slidePhoto(diff === 0 ? 0 : (index > currentSlide ? diff : diff - 99));
+}
+
+function attachSliderEvents() {
+    const prevBtn = document.querySelector('.slider-btn.prev');
+    const nextBtn = document.querySelector('.slider-btn.next');
+    if (prevBtn) prevBtn.addEventListener('click', e => { e.stopPropagation(); slidePhoto(-1); });
+    if (nextBtn) nextBtn.addEventListener('click', e => { e.stopPropagation(); slidePhoto(1); });
+    document.querySelectorAll('.slider-dot').forEach((dot, i) => {
+        dot.addEventListener('click', e => { e.stopPropagation(); goToPhoto(i); });
+    });
+}
+
 /* ── LIGHTBOX ── */
 let lbImages = [];
 let lbIndex = 0;
 
 function openCurrentPhoto() {
-    const imgs = document.querySelectorAll('#photo-col img');
-    if (!imgs.length) return;
-    // Solo abre la foto actual (sin navegación en el lightbox)
-    lbImages = [imgs[currentSlide].src];
-    lbIndex = 0;
-    updateLightbox();
-    document.getElementById('lightbox').classList.add('open');
-    document.body.style.overflow = 'hidden';
-}
-
-function openLightbox(index) {
-    lbIndex = index != null ? index : currentSlide;
+    lbIndex = currentSlide;
     updateLightbox();
     document.getElementById('lightbox').classList.add('open');
     document.body.style.overflow = 'hidden';
@@ -667,13 +724,35 @@ function lbSlide(dir) {
     lbIndex = (lbIndex + dir + lbImages.length) % lbImages.length;
     updateLightbox();
 }
+function lbGoTo(i) {
+    lbIndex = i;
+    updateLightbox();
+}
 function updateLightbox() {
     document.getElementById('lightbox-img').src = lbImages[lbIndex];
     const multi = lbImages.length > 1;
     document.getElementById('lightbox-counter').textContent = multi ? `${lbIndex + 1} / ${lbImages.length}` : '';
-    document.querySelector('.lightbox-btn.prev').style.display = multi ? 'flex' : 'none';
-    document.querySelector('.lightbox-btn.next').style.display = multi ? 'flex' : 'none';
+    document.getElementById('lb-prev').style.display = multi ? 'flex' : 'none';
+    document.getElementById('lb-next').style.display = multi ? 'flex' : 'none';
+    const thumbsEl = document.getElementById('lightbox-thumbs');
+    if (multi) {
+        thumbsEl.innerHTML = lbImages.map((src, i) =>
+            `<img class="lightbox-thumb${i === lbIndex ? ' active' : ''}" src="${src}" alt="">`
+        ).join('');
+        thumbsEl.querySelectorAll('.lightbox-thumb').forEach((th, i) => {
+            th.addEventListener('click', e => { e.stopPropagation(); lbGoTo(i); });
+        });
+    } else {
+        thumbsEl.innerHTML = '';
+    }
 }
+
+// Lightbox event listeners
+document.getElementById('lightbox').addEventListener('click', closeLightbox);
+document.getElementById('lightbox-img').addEventListener('click', e => e.stopPropagation());
+document.getElementById('lightbox-close').addEventListener('click', e => { e.stopPropagation(); closeLightbox(); });
+document.getElementById('lb-prev').addEventListener('click', e => { e.stopPropagation(); lbSlide(-1); });
+document.getElementById('lb-next').addEventListener('click', e => { e.stopPropagation(); lbSlide(1); });
 document.addEventListener('keydown', e => {
     if (!document.getElementById('lightbox').classList.contains('open')) return;
     if (e.key === 'Escape') closeLightbox();
@@ -681,26 +760,19 @@ document.addEventListener('keydown', e => {
     if (e.key === 'ArrowRight') lbSlide(1);
 });
 
-let currentSlide = 0;
-function slidePhoto(dir) {
-    const imgs = document.querySelectorAll('#photo-col img');
-    const dots = document.querySelectorAll('.slider-dot');
-    if (!imgs.length) return;
-    imgs[currentSlide].classList.add('hidden');
-    if (dots[currentSlide]) dots[currentSlide].classList.remove('active');
-    currentSlide = (currentSlide + dir + imgs.length) % imgs.length;
-    imgs[currentSlide].classList.remove('hidden');
-    if (dots[currentSlide]) dots[currentSlide].classList.add('active');
-}
-function goToPhoto(index) {
-    slidePhoto(index - currentSlide);
-}
-
 // Initial render
 render();
+currentSlide = 0;
+attachSliderEvents();
+
+// Init lightbox images
 const _id = parseInt(new URLSearchParams(window.location.search).get('id'));
 const _horse = horses.find(h => h.id === _id);
 if (_horse) lbImages = (_horse.images && _horse.images.length > 1) ? _horse.images : [_horse.image];
+
+// Photo col click opens lightbox
+const photoCol = document.getElementById('photo-col');
+if (photoCol) photoCol.addEventListener('click', openCurrentPhoto);
 </script>
 </body>
 </html>

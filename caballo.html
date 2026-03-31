@@ -128,7 +128,7 @@
         .horse-photo-col img {
             width: 100%;
             height: 100%;
-            object-fit: contain;
+            object-fit: cover;
             object-position: center center;
             display: block;
             opacity: 0.95;
@@ -559,14 +559,14 @@ function render() {
                 ${(horse.images && horse.images.length > 1 ? horse.images : [horse.image])
                     .map((src, i) => `<img src="${src}" alt="${horse.name} ${i+1}"${i > 0 ? ' class="hidden"' : ''}>`).join('')}
                 ${horse.images && horse.images.length > 1 ? `
-                <button class="slider-btn prev" onclick="slidePhoto(-1)">
+                <button class="slider-btn prev" onclick="slidePhoto(-1); event.stopPropagation()">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
                 </button>
-                <button class="slider-btn next" onclick="slidePhoto(1)">
+                <button class="slider-btn next" onclick="slidePhoto(1); event.stopPropagation()">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
                 </button>
                 <div class="slider-dots">
-                    ${horse.images.map((_, i) => `<div class="slider-dot${i === 0 ? ' active' : ''}" onclick="goToPhoto(${i})"></div>`).join('')}
+                    ${horse.images.map((_, i) => `<div class="slider-dot${i === 0 ? ' active' : ''}" onclick="goToPhoto(${i}); event.stopPropagation()"></div>`).join('')}
                 </div>` : ''}
                 <div class="horse-photo-badge">
                     <span class="horse-photo-badge-tag">${horse.disciplinaLabel} &nbsp;·&nbsp; ${horse.tag[currentLang]}</span>

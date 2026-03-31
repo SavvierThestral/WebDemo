@@ -16,13 +16,11 @@ const horses = [
         talla: "1.63 m",
         altura_cat: "medium",
 
-        /* Códigos para filtros (catalogo.html) */
         disciplina: "doma",
         nivel: "intermedio",
         genero: "semental",
         perfil: "profesional",
 
-        /* Etiquetas de display (caballo.html, catalogo cards) */
         disciplinaLabel: "Doma Clásica",
         nivelLabel: "Nivel 4",
         generoLabel: "Semental",
@@ -30,10 +28,9 @@ const horses = [
 
         capa: "Torda",
         piro: "Positivo",
-        image: "caballos/SANTO/tanto.webp",
-        images: ["caballos/SANTO/tanto.webp", "caballos/SANTO/Tanto2.webp"],
+        image: "caballos/TANTO/tanto.webp",
+        images: ["caballos/TANTO/tanto.webp", "caballos/TANTO/Tanto2.webp"],
 
-        /* Pedigree (solo Tanto tiene datos completos) */
         padre: "Livino de Martet",
         madre: "Fer Bonita",
         criador: "Finca Lo Tacon",
@@ -73,7 +70,7 @@ const horses = [
 
         capa: "Torda",
         piro: "Negativo",
-        image: "caballos/EVORA/tevora.webp",
+        image: "caballos/TEVORA/tevora.webp",
 
         desc: {
             es: "Tevora es una yegua Pura Raza Española de capa torda nacida en 2021, con Nivel 2 de Doma Clásica confirmado. Ejemplar joven con gran potencial de desarrollo, temperamento dócil y movimientos naturales propios de la raza. Placas radiológicas en perfecto estado. Piroplasmosis negativa. La opción ideal para un jinete amateur que quiera progresar en la doma clásica. San Pedro del Pinatar, Murcia.",
@@ -108,7 +105,8 @@ const horses = [
 
         capa: "Castaña",
         piro: "Negativo",
-        image: "caballos/Limeno/timeño.webp",
+        image: "caballos/TIMEÑO/Timeño2.webp",
+        images: ["caballos/TIMEÑO/Timeño2.webp", "caballos/TIMEÑO/timeño.webp"],
 
         desc: {
             es: "Timeño es un semental Pura Raza Española de capa castaña nacido en 2018. Su talla excepcional de 1.74 m lo convierte en uno de los ejemplares más imponentes del catálogo. Con Nivel 4 y Passage confirmados. Entero. Placas radiológicas correctas. Piroplasmosis negativa. San Pedro del Pinatar, Murcia.",
@@ -144,6 +142,7 @@ const horses = [
         capa: "Castaña",
         piro: "Negativo",
         image: "caballos/Talconero/talconero.webp",
+        images: ["caballos/Talconero/talconero.webp", "caballos/Talconero/Halconero/Halconero1.webp", "caballos/Talconero/Halconero/Halconero2.webp"],
 
         desc: {
             es: "Talconero es un macho Pura Raza Española castrado de capa castaña nacido en 2015. El ejemplar más experimentado del catálogo: Nivel San Jorge completo con Piaffe y Passage confirmados. Equilibrado y de fácil manejo. Placas radiológicas correctas. Piroplasmosis negativa. San Pedro del Pinatar, Murcia.",
@@ -178,7 +177,7 @@ const horses = [
 
         capa: "Torda",
         piro: "Negativo",
-        image: "caballos/UMERO/tumero.webp",
+        image: "caballos/TUMERO/tumero.webp",
 
         desc: {
             es: "Tumero es un semental Pura Raza Española de capa torda nacido en 2019. Con tan solo 7 años ha alcanzado el Nivel 7 de Doma Clásica y el nivel San Jorge. Entero. Gran motor y presencia en la pista. Placas radiológicas en perfecto estado. Piroplasmosis negativa. San Pedro del Pinatar, Murcia.",
@@ -213,7 +212,8 @@ const horses = [
 
         capa: "Castaña",
         piro: "Consultar",
-        image: "caballos/Sweet/sweet.webp",
+        image: "caballos/TSWEET/sweet.webp",
+        images: ["caballos/TSWEET/sweet.webp", "caballos/TSWEET/Sweet 2.webp", "caballos/TSWEET/Sweet 3.webp"],
 
         desc: {
             es: "Tsweet es una yegua Pony de capa castaña nacida en 2013, con Nivel II-III de Doma Clásica confirmado. 13 años de edad, talla 1.48 m. San Pedro del Pinatar, Murcia.",
@@ -227,7 +227,7 @@ const horses = [
     {
         id: 7,
         hidden: true,
-        name: "Festina",
+        name: "Testina",
         breed: "Pura Raza Española (PRE)",
         breedShort: "P.R.E.",
         raza: "pre",
@@ -249,7 +249,7 @@ const horses = [
 
         capa: "—",
         piro: "—",
-        image: "caballos/FESTINA/_Piebald horse_ Sticker for Sale by Grypis.jpg",
+        image: "caballos/TESTINA/_Piebald horse_ Sticker for Sale by Grypis.jpg",
 
         desc: {
             es: "Información próximamente disponible. Contacte con nosotros para conocer los detalles de esta yegua PRE. San Pedro del Pinatar, Murcia.",

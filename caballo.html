@@ -81,89 +81,22 @@
             transition: background 0.3s, color 0.3s !important;
         }
         .nav-cta:hover { background: var(--gold) !important; color: white !important; }
-
         .nav-right { display: flex; align-items: center; gap: 1.5rem; }
         .lang-switcher { display: flex; align-items: center; border: 1px solid var(--border-strong); overflow: hidden; }
         .lang-btn { font-family: 'Jost', sans-serif; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.14em; padding: 0.35rem 0.7rem; background: transparent; border: none; color: var(--stone-light); cursor: pointer; transition: background 0.25s, color 0.25s; }
         .lang-btn.active { background: var(--gold); color: white; }
         .lang-btn:hover:not(.active) { color: var(--gold); }
 
-        @media (max-width: 1100px) {
-            .nav-links { display: none; }
-        }
+        @media (max-width: 1100px) { .nav-links { display: none; } }
         @media (max-width: 768px) {
             .nav { padding: 0 1.2rem; height: 60px; }
             .nav-logo-text { display: none; }
         }
 
-        /* ─── HERO IMAGE ─── */
-        .horse-hero {
-            position: relative;
-            width: 100%;
-            height: 70vh;
-            min-height: 420px;
-            overflow: hidden;
-            background: var(--ink);
-        }
-        .horse-hero img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            object-position: center center;
-            display: block;
-        }
-        .horse-hero-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(
-                to top,
-                rgba(28,27,24,0.85) 0%,
-                rgba(28,27,24,0.3) 40%,
-                rgba(28,27,24,0.1) 70%,
-                transparent 100%
-            );
-        }
-        .horse-hero-label {
-            position: absolute;
-            bottom: 2.5rem;
-            left: 3rem;
-            right: 3rem;
-        }
-        .horse-hero-eyebrow {
-            font-size: 0.68rem;
-            font-weight: 500;
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
-            color: var(--gold-light);
-            display: block;
-            margin-bottom: 0.7rem;
-        }
-        .horse-hero-name {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(2rem, 4vw, 4rem);
-            font-weight: 400;
-            color: var(--warm-white);
-            line-height: 1.05;
-            letter-spacing: -0.02em;
-        }
-        .horse-hero-breed {
-            font-size: 0.9rem;
-            font-weight: 300;
-            color: rgba(253,251,247,0.65);
-            margin-top: 0.5rem;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-        }
-
-        @media (max-width: 768px) {
-            .horse-hero { height: 55vh; min-height: 320px; }
-            .horse-hero-label { left: 1.2rem; right: 1.2rem; bottom: 1.8rem; }
-        }
-
-        /* ─── BACK BREADCRUMB ─── */
+        /* ─── BREADCRUMB ─── */
         .breadcrumb-bar {
             background: var(--parchment);
-            padding: 0.85rem 3rem;
+            padding: 0.75rem 3rem;
             display: flex;
             align-items: center;
             gap: 0.5rem;
@@ -172,129 +105,159 @@
             text-transform: uppercase;
             color: var(--stone);
         }
-        .breadcrumb-bar a {
-            color: var(--stone);
-            text-decoration: none;
-            transition: color 0.25s;
-        }
+        .breadcrumb-bar a { color: var(--stone); text-decoration: none; transition: color 0.25s; }
         .breadcrumb-bar a:hover { color: var(--gold); }
         .breadcrumb-bar span { color: var(--gold); }
-        @media (max-width: 768px) { .breadcrumb-bar { padding: 0.75rem 1.2rem; } }
+        @media (max-width: 768px) { .breadcrumb-bar { padding: 0.65rem 1.2rem; } }
 
-        /* ─── MAIN CONTENT ─── */
-        .horse-content {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 4rem 3rem 6rem;
+        /* ─── SPLIT LAYOUT ─── */
+        .horse-split {
             display: grid;
-            grid-template-columns: 1fr 340px;
-            gap: 5rem;
-            align-items: start;
-        }
-        @media (max-width: 900px) {
-            .horse-content { grid-template-columns: 1fr; gap: 3rem; padding: 3rem 1.5rem 4rem; }
-        }
-        @media (max-width: 480px) {
-            .horse-content { padding: 2rem 1rem 3rem; }
+            grid-template-columns: 47% 53%;
+            min-height: calc(100vh - 72px);
         }
 
-        /* ─── LEFT COLUMN ─── */
-        .horse-main h2 {
-            font-size: clamp(1.8rem, 3vw, 2.8rem);
+        /* LEFT: imagen */
+        .horse-photo-col {
+            position: sticky;
+            top: 72px;
+            height: calc(100vh - 72px);
+            background: var(--ink);
+            overflow: hidden;
+        }
+        .horse-photo-col img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center center;
+            display: block;
+            opacity: 0.92;
+        }
+        .horse-photo-badge {
+            position: absolute;
+            bottom: 2rem;
+            left: 2rem;
+            background: rgba(28,27,24,0.75);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(184,147,90,0.4);
+            padding: 0.6rem 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+        .horse-photo-badge-tag {
+            font-size: 0.6rem;
+            font-weight: 600;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: var(--gold-light);
+        }
+        .horse-photo-badge-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
             font-weight: 400;
-            color: var(--ink);
-            margin-bottom: 0.5rem;
+            color: var(--warm-white);
             line-height: 1.1;
         }
-        .horse-main .sub-breed {
+
+        /* RIGHT: info */
+        .horse-info-col {
+            padding: 3.5rem 3.5rem 5rem;
+            overflow-y: auto;
+            background: var(--warm-white);
+        }
+
+        .horse-name {
+            font-size: clamp(2.2rem, 3.5vw, 3.5rem);
+            font-weight: 400;
+            color: var(--ink);
+            line-height: 1.05;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.4rem;
+        }
+        .horse-sub {
             font-size: 0.82rem;
             font-weight: 400;
             letter-spacing: 0.14em;
             text-transform: uppercase;
             color: var(--stone-light);
-            margin-bottom: 2.5rem;
+            margin-bottom: 2.8rem;
         }
 
+        /* specs */
         .specs-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 1px;
             background: var(--border);
             border: 1px solid var(--border);
-            margin-bottom: 2.8rem;
+            margin-bottom: 2.5rem;
         }
-        @media (max-width: 540px) { .specs-grid { grid-template-columns: repeat(2, 1fr); } }
-        .spec-item {
-            background: var(--warm-white);
-            padding: 1.2rem 1.4rem;
-        }
+        @media (max-width: 480px) { .specs-grid { grid-template-columns: repeat(2, 1fr); } }
+        .spec-item { background: var(--warm-white); padding: 1.1rem 1.2rem; }
         .spec-label {
-            font-size: 0.62rem;
+            font-size: 0.6rem;
             font-weight: 600;
             letter-spacing: 0.22em;
             text-transform: uppercase;
             color: var(--stone-light);
             display: block;
-            margin-bottom: 0.35rem;
+            margin-bottom: 0.3rem;
         }
-        .spec-value {
-            font-size: 0.95rem;
-            font-weight: 500;
-            color: var(--ink);
-        }
+        .spec-value { font-size: 0.92rem; font-weight: 500; color: var(--ink); }
         .spec-value.highlight { color: var(--gold); }
 
-        .horse-desc-title {
-            font-size: 0.68rem;
+        /* pedigree section */
+        .section-label {
+            font-size: 0.65rem;
             font-weight: 600;
-            letter-spacing: 0.24em;
+            letter-spacing: 0.26em;
             text-transform: uppercase;
             color: var(--gold);
-            margin-bottom: 1rem;
             display: block;
+            margin-bottom: 1rem;
         }
+
+        /* description */
         .horse-desc {
-            font-size: 1rem;
+            font-size: 0.97rem;
             font-weight: 300;
             line-height: 1.9;
             color: var(--stone);
-            margin-bottom: 2rem;
+            margin-bottom: 2.8rem;
         }
 
-        /* ─── RIGHT SIDEBAR ─── */
-        .horse-sidebar {
-            position: sticky;
-            top: 88px;
-        }
-        .contact-card {
+        /* contact CTA */
+        .contact-cta {
             background: var(--ink);
-            padding: 2.5rem 2rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
         }
-        .contact-card-tag {
+        .contact-cta-tag {
             display: inline-block;
-            font-size: 0.6rem;
+            font-size: 0.58rem;
             font-weight: 600;
             letter-spacing: 0.22em;
             text-transform: uppercase;
             background: var(--gold);
             color: white;
-            padding: 0.28rem 0.75rem;
-            margin-bottom: 1.5rem;
+            padding: 0.25rem 0.7rem;
+            margin-bottom: 1.2rem;
         }
-        .contact-card h3 {
+        .contact-cta h3 {
             font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             font-weight: 400;
             color: var(--warm-white);
-            margin-bottom: 0.7rem;
+            margin-bottom: 0.5rem;
             line-height: 1.25;
         }
-        .contact-card p {
-            font-size: 0.88rem;
+        .contact-cta p {
+            font-size: 0.85rem;
             font-weight: 300;
-            line-height: 1.75;
-            color: rgba(253,251,247,0.6);
-            margin-bottom: 2rem;
+            line-height: 1.7;
+            color: rgba(253,251,247,0.55);
+            margin-bottom: 1.5rem;
         }
         .btn-contact {
             display: flex;
@@ -302,11 +265,11 @@
             justify-content: center;
             gap: 0.6rem;
             width: 100%;
-            padding: 1rem;
+            padding: 0.95rem;
             background: var(--gold);
             color: white;
             font-family: 'Jost', sans-serif;
-            font-size: 0.78rem;
+            font-size: 0.76rem;
             font-weight: 500;
             letter-spacing: 0.18em;
             text-transform: uppercase;
@@ -319,50 +282,44 @@
         .btn-contact:hover { background: var(--gold-light); transform: translateY(-1px); }
         .btn-contact:active { transform: translateY(0); }
 
-        .contact-divider {
-            height: 1px;
-            background: rgba(255,255,255,0.1);
-            margin: 1.5rem 0;
-        }
-        .contact-location {
-            display: flex;
-            gap: 0.8rem;
-            align-items: flex-start;
-        }
-        .contact-location svg { flex-shrink: 0; color: var(--gold); margin-top: 2px; }
-        .contact-location p {
-            font-size: 0.82rem;
-            font-weight: 300;
-            color: rgba(253,251,247,0.55);
-            line-height: 1.6;
-            margin-bottom: 0;
-        }
-
-        /* ─── LOADING / ERROR ─── */
-        .not-found {
-            text-align: center;
-            padding: 8rem 2rem;
-        }
-        .not-found h2 {
-            font-size: 2rem;
-            font-weight: 400;
-            color: var(--ink);
-            margin-bottom: 1rem;
-        }
-        .not-found p { font-size: 0.95rem; font-weight: 300; color: var(--stone); margin-bottom: 2rem; }
-        .not-found a {
+        .back-link {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            color: var(--gold);
+            color: var(--stone);
             text-decoration: none;
-            font-size: 0.82rem;
+            font-size: 0.76rem;
             font-weight: 500;
-            letter-spacing: 0.14em;
+            letter-spacing: 0.12em;
             text-transform: uppercase;
-            border-bottom: 1px solid var(--gold);
-            padding-bottom: 2px;
+            border-bottom: 1px solid var(--border-strong);
+            padding-bottom: 3px;
+            transition: color 0.25s, border-color 0.25s;
         }
+        .back-link:hover { color: var(--gold); border-color: var(--gold); }
+
+        /* ─── MOBILE ─── */
+        @media (max-width: 860px) {
+            .horse-split { grid-template-columns: 1fr; min-height: auto; }
+            .horse-photo-col {
+                position: relative;
+                top: 0;
+                height: 60vw;
+                min-height: 280px;
+                max-height: 480px;
+            }
+            .horse-info-col { padding: 2.5rem 1.5rem 4rem; }
+        }
+        @media (max-width: 480px) {
+            .horse-info-col { padding: 2rem 1rem 3rem; }
+            .horse-name { font-size: 2.2rem; }
+        }
+
+        /* ─── NOT FOUND ─── */
+        .not-found { text-align: center; padding: 8rem 2rem; }
+        .not-found h2 { font-size: 2rem; font-weight: 400; color: var(--ink); margin-bottom: 1rem; }
+        .not-found p { font-size: 0.95rem; font-weight: 300; color: var(--stone); margin-bottom: 2rem; }
+        .not-found a { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--gold); text-decoration: none; font-size: 0.82rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; border-bottom: 1px solid var(--gold); padding-bottom: 2px; }
 
         /* ─── FOOTER ─── */
         footer {
@@ -412,12 +369,9 @@
 
 <script src="horses.js"></script>
 <script>
-/* Datos cargados desde horses.js */
-
-/* ── TRANSLATIONS ── */
 const tr = {
     es: {
-        nav_home:'Inicio', nav_catalog:'Catálogo', nav_services:'Servicios', nav_contact:'Contacto',
+        nav_home:'Inicio', nav_catalog:'Catálogo', nav_contact:'Contacto',
         spec_discipline:'Disciplina', spec_level:'Nivel', spec_gender:'Género', spec_age:'Edad', spec_height:'Alzada', spec_profile:'Perfil jinete',
         spec_birth:'Nacimiento', spec_coat:'Capa', spec_father:'Padre', spec_mother:'Madre', spec_breeder:'Criador', spec_owner:'Titular', spec_microchip:'Microchip',
         section_pedigree:'Pedigree & Datos Registrales', section_desc:'Descripción',
@@ -428,7 +382,7 @@ const tr = {
         years:'años'
     },
     en: {
-        nav_home:'Home', nav_catalog:'Catalogue', nav_services:'Services', nav_contact:'Contact',
+        nav_home:'Home', nav_catalog:'Catalogue', nav_contact:'Contact',
         spec_discipline:'Discipline', spec_level:'Level', spec_gender:'Gender', spec_age:'Age', spec_height:'Height', spec_profile:'Rider profile',
         spec_birth:'Born', spec_coat:'Coat', spec_father:'Sire', spec_mother:'Dam', spec_breeder:'Breeder', spec_owner:'Owner', spec_microchip:'Microchip',
         section_pedigree:'Pedigree & Registration', section_desc:'Description',
@@ -474,17 +428,6 @@ function render() {
     document.title = `${horse.name} | IRH - Iberian Riding Horses`;
 
     container.innerHTML = `
-        <!-- HERO -->
-        <div class="horse-hero">
-            <img src="${horse.image}" alt="${horse.name}">
-            <div class="horse-hero-overlay"></div>
-            <div class="horse-hero-label">
-                <span class="horse-hero-eyebrow">${horse.disciplinaLabel} &nbsp;·&nbsp; ${horse.tag[currentLang]}</span>
-                <h1 class="horse-hero-name">${horse.name}</h1>
-                <p class="horse-hero-breed">${horse.breed}</p>
-            </div>
-        </div>
-
         <!-- BREADCRUMB -->
         <div class="breadcrumb-bar">
             <a href="index.html">${l.nav_home}</a>
@@ -494,13 +437,22 @@ function render() {
             <span>${horse.name}</span>
         </div>
 
-        <!-- MAIN CONTENT -->
-        <div class="horse-content">
+        <!-- SPLIT LAYOUT -->
+        <div class="horse-split">
 
-            <!-- LEFT -->
-            <div class="horse-main">
-                <h2>${horse.name}</h2>
-                <p class="sub-breed">${horse.breed} &nbsp;·&nbsp; ${horse.age} años &nbsp;·&nbsp; ${horse.height}</p>
+            <!-- IZQUIERDA: foto -->
+            <div class="horse-photo-col">
+                <img src="${horse.image}" alt="${horse.name}">
+                <div class="horse-photo-badge">
+                    <span class="horse-photo-badge-tag">${horse.disciplinaLabel} &nbsp;·&nbsp; ${horse.tag[currentLang]}</span>
+                    <span class="horse-photo-badge-name">${horse.name}</span>
+                </div>
+            </div>
+
+            <!-- DERECHA: info -->
+            <div class="horse-info-col">
+                <h1 class="horse-name">${horse.name}</h1>
+                <p class="horse-sub">${horse.breed} &nbsp;·&nbsp; ${horse.age} ${l.years} &nbsp;·&nbsp; ${horse.height}</p>
 
                 <div class="specs-grid">
                     <div class="spec-item">
@@ -530,43 +482,31 @@ function render() {
                 </div>
 
                 ${horse.padre ? `
-                <span class="horse-desc-title" style="margin-top:2rem;">${l.section_pedigree}</span>
-                <div class="specs-grid" style="margin-bottom:2rem;">
+                <span class="section-label" style="margin-top:0.5rem;">${l.section_pedigree}</span>
+                <div class="specs-grid" style="margin-bottom:2.5rem;">
                     ${horse.nacimiento ? `<div class="spec-item"><span class="spec-label">${l.spec_birth}</span><span class="spec-value">${horse.nacimiento}</span></div>` : ''}
                     ${horse.capa ? `<div class="spec-item"><span class="spec-label">${l.spec_coat}</span><span class="spec-value">${horse.capa}</span></div>` : ''}
                     ${horse.padre ? `<div class="spec-item"><span class="spec-label">${l.spec_father}</span><span class="spec-value">${horse.padre}</span></div>` : ''}
                     ${horse.madre ? `<div class="spec-item"><span class="spec-label">${l.spec_mother}</span><span class="spec-value">${horse.madre}</span></div>` : ''}
                     ${horse.criador ? `<div class="spec-item"><span class="spec-label">${l.spec_breeder}</span><span class="spec-value">${horse.criador}</span></div>` : ''}
                     ${horse.titular ? `<div class="spec-item"><span class="spec-label">${l.spec_owner}</span><span class="spec-value">${horse.titular}</span></div>` : ''}
-                    ${horse.microchip ? `<div class="spec-item" style="grid-column:1/-1;"><span class="spec-label">${l.spec_microchip}</span><span class="spec-value" style="font-size:0.82rem;letter-spacing:0.04em;">${horse.microchip}</span></div>` : ''}
+                    ${horse.microchip ? `<div class="spec-item" style="grid-column:1/-1;"><span class="spec-label">${l.spec_microchip}</span><span class="spec-value" style="font-size:0.8rem;letter-spacing:0.04em;">${horse.microchip}</span></div>` : ''}
                 </div>` : ''}
 
-                <span class="horse-desc-title">${l.section_desc}</span>
+                <span class="section-label">${l.section_desc}</span>
                 <p class="horse-desc">${horse.desc[currentLang]}</p>
 
-                <a href="catalogo.html" style="display:inline-flex; align-items:center; gap:0.5rem; color:var(--stone); text-decoration:none; font-size:0.78rem; font-weight:500; letter-spacing:0.12em; text-transform:uppercase; border-bottom:1px solid var(--border-strong); padding-bottom:3px; transition:color 0.25s, border-color 0.25s;"
-                   onmouseover="this.style.color='var(--gold)'; this.style.borderColor='var(--gold)'"
-                   onmouseout="this.style.color='var(--stone)'; this.style.borderColor='var(--border-strong)'">
-                    ${l.back}
-                </a>
-            </div>
-
-            <!-- RIGHT SIDEBAR -->
-            <div class="horse-sidebar">
-                <div class="contact-card">
-                    <span class="contact-card-tag">${horse.tag[currentLang]}</span>
-                    <h3>${l.contact_title}<br><em style="font-style:italic; color:var(--gold-light);">${horse.name}</em>?</h3>
+                <div class="contact-cta">
+                    <span class="contact-cta-tag">${horse.tag[currentLang]}</span>
+                    <h3>${l.contact_title} <em style="font-style:italic; color:var(--gold-light);">${horse.name}</em>?</h3>
                     <p>${l.contact_body}</p>
                     <a href="index.html#contact" class="btn-contact">
                         ${l.contact_btn}
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
                     </a>
-                    <div class="contact-divider"></div>
-                    <div class="contact-location">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                        <p>Finca Lo Tacon s/n<br>San Pedro del Pinatar 30740<br>Murcia, España</p>
-                    </div>
                 </div>
+
+                <a href="catalogo.html" class="back-link">${l.back}</a>
             </div>
 
         </div>

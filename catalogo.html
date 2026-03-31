@@ -684,7 +684,7 @@ function applyFilters() {
     const altura_cat  = getChecked('altura_cat');
     const sort        = document.getElementById('sort-select').value;
 
-    let result = horses.filter(h => {
+    let result = horses.filter(h => !h.hidden).filter(h => {
         if (disciplina.length && !disciplina.includes(h.disciplina)) return false;
         if (nivel.length && !nivel.includes(h.nivel)) return false;
         if (genero.length && !genero.includes(h.genero)) return false;

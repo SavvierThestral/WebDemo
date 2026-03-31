@@ -226,6 +226,7 @@ const horses = [
     },
     {
         id: 7,
+        hidden: true,
         name: "Festina",
         breed: "Pura Raza Española (PRE)",
         breedShort: "P.R.E.",

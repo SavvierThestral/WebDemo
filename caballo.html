@@ -553,10 +553,7 @@ function setLang(lang) {
     });
     document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.textContent.toLowerCase() === lang));
     render();
-    currentSlide = 0;
-    attachSliderEvents();
-    const photoColEl = document.getElementById('photo-col');
-    if (photoColEl) photoColEl.addEventListener('click', openCurrentPhoto);
+    initPhotoCol();
 }
 
 function getParam(name) {
@@ -678,39 +675,11 @@ function render() {
     `;
 }
 
-/* ── SLIDER ── */
-let currentSlide = 0;
-
-function slidePhoto(dir) {
-    const imgs = document.querySelectorAll('#photo-col img');
-    const dots = document.querySelectorAll('.slider-dot');
-    if (!imgs.length) return;
-    imgs[currentSlide].classList.add('hidden');
-    if (dots[currentSlide]) dots[currentSlide].classList.remove('active');
-    currentSlide = (currentSlide + dir + imgs.length) % imgs.length;
-    imgs[currentSlide].classList.remove('hidden');
-    if (dots[currentSlide]) dots[currentSlide].classList.add('active');
-}
-function goToPhoto(index) {
-    const diff = ((index - currentSlide) % 99 + 99) % 99;
-    slidePhoto(diff === 0 ? 0 : (index > currentSlide ? diff : diff - 99));
-}
-
-function attachSliderEvents() {
-    const prevBtn = document.querySelector('.slider-btn.prev');
-    const nextBtn = document.querySelector('.slider-btn.next');
-    if (prevBtn) prevBtn.addEventListener('click', e => { e.stopPropagation(); slidePhoto(-1); });
-    if (nextBtn) nextBtn.addEventListener('click', e => { e.stopPropagation(); slidePhoto(1); });
-    document.querySelectorAll('.slider-dot').forEach((dot, i) => {
-        dot.addEventListener('click', e => { e.stopPropagation(); goToPhoto(i); });
-    });
-}
-
 /* ── LIGHTBOX ── */
 let lbImages = [];
 let lbIndex = 0;
 
-function openCurrentPhoto() {
+function openLightbox() {
     lbIndex = currentSlide;
     updateLightbox();
     document.getElementById('lightbox').classList.add('open');
@@ -724,10 +693,6 @@ function lbSlide(dir) {
     lbIndex = (lbIndex + dir + lbImages.length) % lbImages.length;
     updateLightbox();
 }
-function lbGoTo(i) {
-    lbIndex = i;
-    updateLightbox();
-}
 function updateLightbox() {
     document.getElementById('lightbox-img').src = lbImages[lbIndex];
     const multi = lbImages.length > 1;
@@ -735,19 +700,13 @@ function updateLightbox() {
     document.getElementById('lb-prev').style.display = multi ? 'flex' : 'none';
     document.getElementById('lb-next').style.display = multi ? 'flex' : 'none';
     const thumbsEl = document.getElementById('lightbox-thumbs');
-    if (multi) {
-        thumbsEl.innerHTML = lbImages.map((src, i) =>
-            `<img class="lightbox-thumb${i === lbIndex ? ' active' : ''}" src="${src}" alt="">`
-        ).join('');
-        thumbsEl.querySelectorAll('.lightbox-thumb').forEach((th, i) => {
-            th.addEventListener('click', e => { e.stopPropagation(); lbGoTo(i); });
-        });
-    } else {
-        thumbsEl.innerHTML = '';
-    }
+    thumbsEl.innerHTML = multi ? lbImages.map((src, i) =>
+        `<img class="lightbox-thumb${i === lbIndex ? ' active' : ''}" src="${src}" alt="">`
+    ).join('') : '';
+    thumbsEl.querySelectorAll('.lightbox-thumb').forEach((th, i) => {
+        th.addEventListener('click', e => { e.stopPropagation(); lbIndex = i; updateLightbox(); });
+    });
 }
-
-// Lightbox event listeners
 document.getElementById('lightbox').addEventListener('click', closeLightbox);
 document.getElementById('lightbox-img').addEventListener('click', e => e.stopPropagation());
 document.getElementById('lightbox-close').addEventListener('click', e => { e.stopPropagation(); closeLightbox(); });
@@ -760,19 +719,74 @@ document.addEventListener('keydown', e => {
     if (e.key === 'ArrowRight') lbSlide(1);
 });
 
-// Initial render
-render();
-currentSlide = 0;
-attachSliderEvents();
+/* ── SLIDER ── */
+let currentSlide = 0;
 
-// Init lightbox images
+function slidePhoto(dir) {
+    const imgs = document.querySelectorAll('#photo-col img');
+    const dots = document.querySelectorAll('.slider-dot');
+    if (!imgs.length) return;
+    imgs[currentSlide].classList.add('hidden');
+    if (dots[currentSlide]) dots[currentSlide].classList.remove('active');
+    currentSlide = (currentSlide + dir + imgs.length) % imgs.length;
+    imgs[currentSlide].classList.remove('hidden');
+    if (dots[currentSlide]) dots[currentSlide].classList.add('active');
+}
+
+function initPhotoCol() {
+    currentSlide = 0;
+    const col = document.getElementById('photo-col');
+    if (!col) return;
+
+    // Flechas: solo cambian foto
+    const prev = col.querySelector('.slider-btn.prev');
+    const next = col.querySelector('.slider-btn.next');
+    if (prev) prev.addEventListener('click', e => { e.stopPropagation(); slidePhoto(-1); });
+    if (next) next.addEventListener('click', e => { e.stopPropagation(); slidePhoto(1); });
+    col.querySelectorAll('.slider-dot').forEach((dot, i) => {
+        dot.addEventListener('click', e => { e.stopPropagation(); goToPhoto(i); });
+    });
+
+    // Touch: swipe cambia foto, tap abre lightbox
+    let txStart = 0, tyStart = 0, didSwipe = false;
+    col.addEventListener('touchstart', e => {
+        txStart = e.touches[0].clientX;
+        tyStart = e.touches[0].clientY;
+        didSwipe = false;
+    }, { passive: true });
+    col.addEventListener('touchend', e => {
+        const dx = e.changedTouches[0].clientX - txStart;
+        const dy = e.changedTouches[0].clientY - tyStart;
+        if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
+            didSwipe = true;
+            slidePhoto(dx < 0 ? 1 : -1);
+        }
+    });
+
+    // Clic en la foto: abre lightbox (ignora si fue swipe)
+    col.addEventListener('click', e => {
+        if (didSwipe) { didSwipe = false; return; }
+        openLightbox();
+    });
+}
+
+function goToPhoto(i) {
+    const imgs = document.querySelectorAll('#photo-col img');
+    const dots = document.querySelectorAll('.slider-dot');
+    if (!imgs.length || i === currentSlide) return;
+    imgs[currentSlide].classList.add('hidden');
+    if (dots[currentSlide]) dots[currentSlide].classList.remove('active');
+    currentSlide = i;
+    imgs[currentSlide].classList.remove('hidden');
+    if (dots[currentSlide]) dots[currentSlide].classList.add('active');
+}
+
+/* ── INIT ── */
+render();
 const _id = parseInt(new URLSearchParams(window.location.search).get('id'));
 const _horse = horses.find(h => h.id === _id);
 if (_horse) lbImages = (_horse.images && _horse.images.length > 1) ? _horse.images : [_horse.image];
-
-// Photo col click opens lightbox
-const photoCol = document.getElementById('photo-col');
-if (photoCol) photoCol.addEventListener('click', openCurrentPhoto);
+initPhotoCol();
 </script>
 </body>
 </html>

@@ -125,6 +125,12 @@
             background: var(--ink);
             overflow: hidden;
         }
+        .horse-photo-col.has-gallery {
+            position: relative;
+            top: 0;
+            height: auto;
+            overflow: visible;
+        }
         .horse-photo-col img {
             width: 100%;
             height: 100%;
@@ -132,6 +138,12 @@
             object-position: center center;
             display: block;
             opacity: 0.92;
+        }
+        .horse-photo-col.has-gallery img {
+            height: calc(100vh - 72px);
+        }
+        .horse-photo-col.has-gallery img + img {
+            margin-top: 4px;
         }
         .horse-photo-badge {
             position: absolute;
@@ -441,8 +453,10 @@ function render() {
         <div class="horse-split">
 
             <!-- IZQUIERDA: foto -->
-            <div class="horse-photo-col">
-                <img src="${horse.image}" alt="${horse.name}">
+            <div class="horse-photo-col${horse.images && horse.images.length > 1 ? ' has-gallery' : ''}">
+                ${horse.images && horse.images.length > 1
+                    ? horse.images.map((src, i) => `<img src="${src}" alt="${horse.name} ${i+1}">`).join('')
+                    : `<img src="${horse.image}" alt="${horse.name}">`}
                 <div class="horse-photo-badge">
                     <span class="horse-photo-badge-tag">${horse.disciplinaLabel} &nbsp;·&nbsp; ${horse.tag[currentLang]}</span>
                     <span class="horse-photo-badge-name">${horse.name}</span>

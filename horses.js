@@ -31,6 +31,7 @@ const horses = [
         capa: "Torda",
         piro: "Positivo",
         image: "caballos/SANTO/tanto.jpeg",
+        images: ["caballos/SANTO/tanto.jpeg", "caballos/SANTO/Tanto2.jpeg"],
 
         /* Pedigree (solo Tanto tiene datos completos) */
         padre: "Livino de Martet",

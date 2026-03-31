@@ -210,13 +210,13 @@ const horses = [
         generoLabel: "Yegua",
         perfilLabel: "Amateur",
 
-        capa: "Castaña",
+        capa: "Alazán",
         piro: "Consultar",
         image: "caballos/TSWEET/sweet.webp",
         images: ["caballos/TSWEET/sweet.webp", "caballos/TSWEET/Sweet 2.webp", "caballos/TSWEET/Sweet 3.webp"],
 
         desc: {
-            es: "Tsweet es una yegua Pony de capa castaña nacida en 2013, con Nivel II-III de Doma Clásica confirmado. 13 años de edad, talla 1.48 m. San Pedro del Pinatar, Murcia.",
+            es: "Tsweet es una yegua Pony de capa Alazán nacida en 2013, con Nivel II-III de Doma Clásica confirmado. 13 años de edad, talla 1.48 m. San Pedro del Pinatar, Murcia.",
             en: "Tsweet is a chestnut Pony mare born in 2013, with confirmed Level II-III Classical Dressage. 13 years old, 1.48 m height. San Pedro del Pinatar, Murcia."
         },
         tag: {

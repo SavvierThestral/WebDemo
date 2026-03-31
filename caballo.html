@@ -555,7 +555,7 @@ function render() {
         <div class="horse-split">
 
             <!-- IZQUIERDA: foto -->
-            <div class="horse-photo-col" id="photo-col" onclick="openLightbox(currentSlide)">
+            <div class="horse-photo-col" id="photo-col" onclick="openCurrentPhoto()">
                 ${(horse.images && horse.images.length > 1 ? horse.images : [horse.image])
                     .map((src, i) => `<img src="${src}" alt="${horse.name} ${i+1}"${i > 0 ? ' class="hidden"' : ''}>`).join('')}
                 ${horse.images && horse.images.length > 1 ? `
@@ -641,6 +641,17 @@ function render() {
 /* ── LIGHTBOX ── */
 let lbImages = [];
 let lbIndex = 0;
+
+function openCurrentPhoto() {
+    const imgs = document.querySelectorAll('#photo-col img');
+    if (!imgs.length) return;
+    // Solo abre la foto actual (sin navegación en el lightbox)
+    lbImages = [imgs[currentSlide].src];
+    lbIndex = 0;
+    updateLightbox();
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
 
 function openLightbox(index) {
     lbIndex = index != null ? index : currentSlide;
